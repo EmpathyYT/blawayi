@@ -1,2 +1,2 @@
-# blawayi
-Project of this retarded friend of mine
+# Moh. Z. Balwayi
+Project of this retard

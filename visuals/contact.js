@@ -8,5 +8,8 @@ contactForm.addEventListener('submit', async (event) => {
     for (const value of formData.values()) {
         data.push(value)
     }
+    contactForm.reset();
     await window.electron.send('submit:contactForm', data);
+    data = [];
+    
 })

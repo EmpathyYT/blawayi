@@ -2,6 +2,11 @@ html {
     background-color: #343541;
 }
 
+body {
+    height: 100%;
+    margin: 0;
+}
+
 h1 {
     font-family: 'Quicksand', sans-serif;
     font-weight: lighter;
@@ -20,7 +25,14 @@ h2 {
     margin-top: 100px;
 }
 
+#sidebar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background-color: transparent;
+}
+
 #sidebar {
+    overflow-y: scroll;
 	position: fixed;
 	top: 0;
 	left: 0;

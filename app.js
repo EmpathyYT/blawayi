@@ -1,5 +1,6 @@
 const {app, BrowserWindow, Menu, ipcMain} = require('electron')
 const path = require('path')
+const fs = require('fs');
 
 function createWindow() {
 
@@ -37,13 +38,27 @@ function createWindow() {
         addContact.hide();
     })
 
+    win.once('close', (event) => {
+        event.preventDefault();
+        win.webContents.send('get-chats')
+    })
+
+    ipcMain.on('chatData', (event, value) => {
+        fs.writeFile('./contacts.json', JSON.stringify(value), 'utf-8', (error) => {
+            if (error) {
+                console.log('[write auth]: ' + error);
+            }
+        })
+        app.quit()
+    })
+
     ipcMain.on('contact-show', () => {
         addContact.show()
     });
 
     ipcMain.on('submit:contactForm', (event, formData) => {
         win.webContents.send('new-chat', formData)
-        addContact.close();
+        addContact.hide();
     })
 
 }
@@ -59,8 +74,5 @@ app.whenReady().then(() => {
     })
 })
 
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit()
-})
 
 

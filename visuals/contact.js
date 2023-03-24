@@ -1,5 +1,12 @@
-const closeButton = document.getElementById('close-window');
+const contactForm = document.getElementById('contact-form');
+let data = [];
 
-closeButton.addEventListener('click', function(event) {
+contactForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-});
+
+    const formData = new FormData(contactForm);
+    for (const value of formData.values()) {
+        data.push(value)
+    }
+    await window.electron.send('submit:contactForm', data);
+})

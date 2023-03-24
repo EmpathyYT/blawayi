@@ -58,6 +58,11 @@ button {
     transition: background-color 0.3s ease-in-out;
 }
 
+.button-list {
+    display: block;
+    width: 100%;
+}
+
 hr {
     width: 100%;
     border: none;
@@ -74,4 +79,16 @@ hr {
 
 button:hover {
     background-color: #444;
+}
+
+ul {
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    width: 100%;
+    margin: 10px 0;
 }

@@ -1,5 +1,10 @@
 {
     "configurations": [
-        
+        {
+            "name": "start",
+            "type": "command",
+            "program": "C:\\Program Files\\nodejs\\npm.cmd",
+            "args": ["start"],
+        },
     ]
 }

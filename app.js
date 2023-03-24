@@ -29,15 +29,19 @@ class Windows {
 
     })
 
-    loadChats() {
+    loadChat() {
         const data = require('./contacts.json');
-        console.log(typeof data)
         this.win.webContents.send('load-chats', data);
+
     }
 
     createWindow() {
         this.win.loadFile('index.html')
         this.addContact.loadFile("visuals/contact.html")
+
+        this.win.once('ready-to-show', (event) => {
+            this.loadChat();
+        })
 
         this.win.once('close', (event) => {
             event.preventDefault();
@@ -67,6 +71,7 @@ class Windows {
             this.addContact.hide();
         })
 
+
     }
 
 }
@@ -75,11 +80,11 @@ class Windows {
 app.whenReady().then(() => {
     window = new Windows()
     window.createWindow()
-    window.loadChats()
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
             window.createWindow()
+            window.loadChat()
         }
     })
 })

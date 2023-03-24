@@ -18,19 +18,16 @@ contactButton.addEventListener('click', async () => {
 });
 
 window.electron.loadChats((event, values) => {
-    console.log("works")
-    if (values.length !== 0) {
-        console.log("works")
-        for (const [key, value] of values) {
-            let node = document.createElement("li");
-            let button = createButton();
-            button.id = key
-            button.innerHTML = value
-            button.className = "button-list"
-            node.appendChild(button)
-            chatList.appendChild(node)
-        }
+    for (const [key, value] of Object.entries(values)) {
+        let node = document.createElement("li");
+        let button = createButton();
+        button.id = key
+        button.innerHTML = `${value}`
+        button.className = "button-list"
+        node.appendChild(button)
+        chatList.appendChild(node)
     }
+
 })
 
 window.electron.onChatUpdate((event, values) => {

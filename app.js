@@ -1,11 +1,10 @@
 const {app, BrowserWindow, Menu, ipcMain} = require('electron')
 const path = require('path')
 const fs = require('fs');
+let window;
 
-function createWindow() {
-
-
-    const win = new BrowserWindow({
+class Windows {
+    win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
@@ -14,10 +13,8 @@ function createWindow() {
             enableRemoteModule: true,
         }
     })
-    win.loadFile('index.html')
 
-
-    let addContact = new BrowserWindow({
+    addContact = new BrowserWindow({
         width: 800,
         height: 500,
         title: 'Contact',
@@ -31,45 +28,58 @@ function createWindow() {
         show: false
 
     })
-    addContact.loadFile("visuals/contact.html")
 
-    addContact.once('close', (event) => {
-        event.preventDefault();
-        addContact.hide();
-    })
+    loadChats() {
+        const data = require('./contacts.json');
+        console.log(typeof data)
+        this.win.webContents.send('load-chats', data);
+    }
 
-    win.once('close', (event) => {
-        event.preventDefault();
-        win.webContents.send('get-chats')
-    })
+    createWindow() {
+        this.win.loadFile('index.html')
+        this.addContact.loadFile("visuals/contact.html")
 
-    ipcMain.on('chatData', (event, value) => {
-        fs.writeFile('./contacts.json', JSON.stringify(value), 'utf-8', (error) => {
-            if (error) {
-                console.log('[write auth]: ' + error);
-            }
+        this.win.once('close', (event) => {
+            event.preventDefault();
+            this.win.webContents.send('get-chats')
         })
-        app.quit()
-    })
 
-    ipcMain.on('contact-show', () => {
-        addContact.show()
-    });
+        this.addContact.once('close', (event) => {
+            event.preventDefault();
+            this.addContact.hide();
+        })
 
-    ipcMain.on('submit:contactForm', (event, formData) => {
-        win.webContents.send('new-chat', formData)
-        addContact.hide();
-    })
+        ipcMain.on('chatData', (event, value) => {
+            fs.writeFile('./contacts.json', JSON.stringify(value), 'utf-8', (error) => {
+                if (error) {
+                    console.log('[write auth]: ' + error);
+                }
+            })
+            app.quit()
+        })
+
+        ipcMain.on('contact-show', () => {
+            this.addContact.show()
+        });
+
+        ipcMain.on('submit:contactForm', (event, formData) => {
+            this.win.webContents.send('new-chat', formData)
+            this.addContact.hide();
+        })
+
+    }
 
 }
 
 
 app.whenReady().then(() => {
-    createWindow()
+    window = new Windows()
+    window.createWindow()
+    window.loadChats()
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
-            createWindow()
+            window.createWindow()
         }
     })
 })

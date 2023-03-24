@@ -5,5 +5,7 @@ contextBridge.exposeInMainWorld('electron', {
     send: (channel, formData) => ipcRenderer.send(channel, formData),
     on:(channel, func) => ipcRenderer.on(channel, (event, ...args) => func(...args)),
     onChatUpdate: (callback) => ipcRenderer.on('new-chat', callback),
-    getChats: (callback) => ipcRenderer.on('get-chats', callback)
+    getChats: (callback) => ipcRenderer.on('get-chats', callback),
+    loadChats: (callback) => ipcRenderer.on('load-chats', callback)
+
 })

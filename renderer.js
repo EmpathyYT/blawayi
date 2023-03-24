@@ -3,6 +3,11 @@ const sidebar = document.getElementById('sidebar');
 const chatList = document.getElementById("contact-list")
 data = {}
 
+
+function createButton() {
+    return document.createElement("button");
+}
+
 toggleSidebarBtn.addEventListener('click', () => {
     sidebar.classList.toggle('open');
 });
@@ -12,9 +17,25 @@ contactButton.addEventListener('click', async () => {
     await window.electron.contactShow()
 });
 
+window.electron.loadChats((event, values) => {
+    console.log("works")
+    if (values.length !== 0) {
+        console.log("works")
+        for (const [key, value] of values) {
+            let node = document.createElement("li");
+            let button = createButton();
+            button.id = key
+            button.innerHTML = value
+            button.className = "button-list"
+            node.appendChild(button)
+            chatList.appendChild(node)
+        }
+    }
+})
+
 window.electron.onChatUpdate((event, values) => {
-    const node = document.createElement("li")
-    const button = document.createElement("button")
+    const node = document.createElement("li");
+    let button = createButton();
     button.id = values[1]
     button.innerHTML = values[0]
     button.className = "button-list"

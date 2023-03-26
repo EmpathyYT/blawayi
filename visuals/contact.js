@@ -11,5 +11,5 @@ contactForm.addEventListener('submit', async (event) => {
     contactForm.reset();
     await window.electron.send('submit:contactForm', data);
     data = [];
-    
+
 })

@@ -4,9 +4,12 @@ const chatList = document.getElementById("contact-list")
 data = {}
 
 
+
 function createButton() {
     return document.createElement("button");
 }
+
+
 
 toggleSidebarBtn.addEventListener('click', () => {
     sidebar.classList.toggle('open');
@@ -24,6 +27,7 @@ window.electron.loadChats((event, values) => {
         button.id = key
         button.innerHTML = `${value}`
         button.className = "button-list"
+        button.onclick = handling
         node.appendChild(button)
         chatList.appendChild(node)
     }
@@ -51,5 +55,18 @@ window.electron.getChats((event) => {
     event.sender.send('chatData', data)
 
 })
+
+function handling() {
+    let main = document.getElementById("main-screen")
+    while (main.firstChild) main.firstChild.remove();
+    sidebar.classList.toggle('open');
+    let title = document.createElement("h1");
+    title.innerHTML = "This is the beginning of your chat with me";
+    main.appendChild(title);
+    main.appendChild(document.createElement('hr'))
+    //TODO: Message bar and auto scrolling
+
+}
+
 
 

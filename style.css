@@ -5,6 +5,7 @@ html {
 body {
     height: 100%;
     margin: 0;
+    overflow-x: hidden;
 }
 
 h1 {
@@ -33,29 +34,41 @@ h2 {
 
 #sidebar {
     overflow-y: scroll;
-	position: fixed;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 200px;
     background-color: #202123;
-	padding: 20px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-	transform: translateX(-200px);
+    transform: translateX(-200px);
+    opacity: 0;
+    z-index: 1;
+}
+
+
+
+footer.hidden {
     opacity: 0;
 }
 
 #sidebar.open {
-	transform: translateX(0);
-	opacity: 1;
+    transform: translateX(0);
+    opacity: 1;
 }
 
 #main-content {
     margin-left: 200px;
     padding: 20px;
+}
+
+#main-screen {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 button {
@@ -103,4 +116,51 @@ ul {
 li {
     width: 100%;
     margin: 10px 0;
+}
+
+footer {
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 65%;
+    max-width: 100%;
+    padding: 20px;
+    background-color: #343541;
+    z-index: 2;
+}
+
+.message-input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 85%;
+    margin: 0 auto;
+}
+
+.message-input-container input {
+    width: calc(100% - 20px); /* Subtract padding from 100% to make room for borders */
+    padding: 10px;
+}
+
+input:focus {
+    outline: none !important;
+    border-color: #40414f;
+    box-shadow: 0 0 10px #719ECE;
+}
+
+
+input, textarea {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    background-color: #40414f;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+#chat-hr {
+    max-width: 90%;
+    margin: 0 auto;
 }

@@ -1,15 +1,38 @@
 const toggleSidebarBtn = document.getElementById('toggle-sidebar');
 const sidebar = document.getElementById('sidebar');
 const chatList = document.getElementById("contact-list")
+const homeButtom = document.getElementById("home-button")
 let footerStat = false
 data = {}
 let messages = {}
-
+let token = ""
 
 function createButton() {
     return document.createElement("button");
 }
 
+homeButtom.addEventListener('click', () => {
+    let main = document.getElementById("main-screen");
+    let title = document.createElement('h1');
+    let sndTitle = document.createElement('h2');
+    let paragraph = document.createElement('p');
+    let code = document.createElement('code');
+    let hr = document.createElement("hr");
+    hr.id = "main-hr"
+    title.innerHTML = "A Messaging Application";
+    sndTitle.innerHTML = "Token: ";
+    paragraph.innerHTML = "Give it to your friends so they can add you";
+    paragraph.id = "small"
+    code.innerHTML = token
+    while (main.firstChild) main.firstChild.remove();
+
+    main.appendChild(title);
+    main.appendChild(hr)
+    main.appendChild(sndTitle);
+    sndTitle.appendChild(code);
+    main.appendChild(paragraph);
+    sidebar.classList.toggle("open");
+})
 
 toggleSidebarBtn.addEventListener('click', () => {
     sidebar.classList.toggle('open');
@@ -42,6 +65,11 @@ window.electron.loadChats((event, values) => {
         chatList.appendChild(node)
     }
 
+})
+
+window.electron.sendToken((event, value) => {
+    token = value['token']
+    document.getElementById("token").innerHTML = token;
 })
 
 window.electron.onChatUpdate((event, values) => {
@@ -117,6 +145,4 @@ function handling(name) {
     //TODO: work on the chat
 
 }
-
-
 

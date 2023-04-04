@@ -2,7 +2,7 @@ const {app, BrowserWindow, Menu, ipcMain} = require('electron')
 const path = require('path')
 const fs = require('fs');
 let window;
-
+let token;
 class Windows {
     win = new BrowserWindow({
         width: 1490,
@@ -31,7 +31,20 @@ class Windows {
 
     loadChat() {
         const data = require('./contacts.json');
+        if (Object.keys(require('./tokenInfo.json')).length === 0) {
+            token = this.tokenGenerator()
+            fs.writeFile('./tokenInfo.json', JSON.stringify(token), 'utf-8', (error) => {
+                if (error) {
+                    console.log('[write auth]: ' + error);
+                }
+            })
+
+        } else {
+            token = require('./tokenInfo.json')
+        }
+        this.win.webContents.send('load-token', token);
         this.win.webContents.send('load-chats', data);
+
 
     }
 
@@ -72,6 +85,18 @@ class Windows {
         })
 
 
+    }
+
+    tokenGenerator() {
+        let result = "";
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const charactersLength = characters.length;
+        for (let i = 0; i < 15; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return {
+            "token": result
+        };
     }
 
 }

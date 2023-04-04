@@ -3,19 +3,36 @@ html, body {
     background-color: #343541;
 }
 
+#home-button {
+    padding-inline: 22px;
+    margin-top: 40px;
+    margin-left: -10px;
+    right: 20px;
+    align-self: flex-start;
+}
+
 h1 {
     font-family: 'Quicksand', sans-serif;
     font-weight: lighter;
     font-size: 48px;
     color: #FFFFFF;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 70px;
+}
+
+#small {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: lighter;
+    font-size: 15px;
+    color: #FFFFFF;
+    text-align: center;
+    margin-top: 20px;
 }
 
 #text-area {
     max-height: calc(100% - 60px); /* or the height of your header and footer */
-  margin-top: 20px;
-  margin-bottom: 100px; /* or the height of your footer */
+    margin-top: 20px;
+    margin-bottom: 100px; /* or the height of your footer */
 }
 
 h2 {
@@ -24,7 +41,13 @@ h2 {
     font-size: 36px;
     color: #FFFFFF;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 40px;
+}
+
+#main-hr {
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #sidebar::-webkit-scrollbar {
@@ -52,7 +75,6 @@ h2 {
 }
 
 
-
 footer.hidden {
     opacity: 0;
 }
@@ -78,6 +100,8 @@ footer.hidden {
     max-width: 100%;
     overflow-x: hidden;
 }
+
+
 
 button {
     font-family: 'Quicksand', sans-serif;
@@ -126,6 +150,8 @@ li {
     margin: 10px 0;
 }
 
+
+
 footer {
     height: 60px;
     position: fixed;
@@ -136,18 +162,18 @@ footer {
     background-color: #343541;
     z-index: 0;
 }
-/*
-footer {
-  height: 60px;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  padding: 20px;
-  background-color: #343541;
-}
-*/
+
 .message {
+    margin-left: 10%;
+    max-width: 85%;
+    overflow-wrap: break-word;
+    color: white;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: lighter;
+    font-size: 20px;
+}
+
+.on-coming-message {
 
 }
 

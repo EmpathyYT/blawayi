@@ -5,7 +5,7 @@ class Chat {
         this.token = token;
         this.messages = messages;
     }
-
+    
     chatLoader() {
 
     }

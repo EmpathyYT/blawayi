@@ -102,7 +102,6 @@ footer.hidden {
 }
 
 
-
 button {
     font-family: 'Quicksand', sans-serif;
     font-weight: 400;
@@ -152,7 +151,6 @@ li {
 }
 
 
-
 footer {
     height: 60px;
     position: fixed;
@@ -181,23 +179,35 @@ footer {
 input[type="text"] {
     color: white;
 }
- .custom-Cmenu {
+
+.custom-Cmenu {
+    display: none;
     position: absolute;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 8px;
+    z-index: 100;
+    background-color: #000000;
+    border: none;
+    font-size: 14px;
+    width: 150px;
+    text-align: left;
+    border-radius: 5px;
 }
-    .custom-Cmenu ul {
+
+.custom-Cmenu ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
-    .custom-Cmenu li {
-    padding: 4px 8px;
+
+.custom-Cmenu li {
+    font-family: 'Quicksand', sans-serif;
+    color: #ff6961;
+    margin-left: 15px;
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
-    .custom-Cmenu li:hover {
-    background-color: #eee;
+
+.custom-Cmenu li:hover {
+    background-color: transparent;
 }
 
 .message-input-container {

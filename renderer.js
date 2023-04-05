@@ -74,6 +74,7 @@ window.electron.loadChats((event, values) => {
         button.onclick = () => {
             handling(value['name'], key)
         }
+        button.oncontextmenu = ctxMenu;
         node.appendChild(button)
         chatList.appendChild(node)
     }
@@ -92,6 +93,7 @@ window.electron.onChatUpdate((event, values) => {
     button.id = values[1];
     button.innerHTML = values[0];
     button.className = "button-list";
+    button.oncontextmenu = ctxMenu;
     button.onclick = () => {
         handling(values[0], values[1]);
     }
@@ -148,7 +150,7 @@ function handling(name, tokenChat) {
     chatLoader(chatData[tokenChat])
 }
 
-document.addEventListener("contextmenu", (event) => {
+const ctxMenu = (event) => {
     event.preventDefault();
     let customCMenu = document.getElementById("custom-context");
     customCMenu.style.display = "block";
@@ -160,7 +162,7 @@ document.addEventListener("contextmenu", (event) => {
     customCMenu.addEventListener("mouseleave", function() {
         customCMenu.style.display = "none";
     });
-});
+}
 
 function sendInput(event, textArea, tokenChat) {
     event.preventDefault();

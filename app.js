@@ -67,6 +67,7 @@ class Windows {
         })
 
         ipcMain.on('chatData', (event, value) => {
+            
             fs.writeFile('./contacts.json', JSON.stringify(value), 'utf-8', (error) => {
                 if (error) {
                     console.log('[write auth]: ' + error);

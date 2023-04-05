@@ -53,13 +53,14 @@ contactButton.addEventListener('click', async () => {
 
 window.electron.loadChats((event, values) => {
     for (const [key, value] of Object.entries(values)) {
+        console.log(key)
         let node = document.createElement("li");
         let button = createButton();
         button.id = key
-        button.innerHTML = `${value}`
+        button.innerHTML = `${value['name']}`
         button.className = "button-list"
         button.onclick = () => {
-            handling(value)
+            handling(value['name'], key)
         }
         node.appendChild(button)
         chatList.appendChild(node)
@@ -79,7 +80,7 @@ window.electron.onChatUpdate((event, values) => {
     button.innerHTML = values[0]
     button.className = "button-list"
     button.onclick = () => {
-        handling(values[0])
+        handling(values[0], values[1])
     }
     node.appendChild(button)
     chatList.appendChild(node)
@@ -89,15 +90,18 @@ window.electron.onChatUpdate((event, values) => {
 window.electron.getChats((event) => {
     const listItems = document.getElementById("contact-list").getElementsByTagName('li')
     for (const listItem of listItems) {
-        let button = listItem.firstChild
-        data[button.id] = button.textContent
-
+        let button = listItem.firstChild;
+        data[button.id] = {
+            name: button.textContent,
+            chats: messages[button.id]
+        };
     }
-    event.sender.send('chatData', data)
+    event.sender.send('chatData', data);
 
 })
 
-function handling(name) {
+function handling(name, tokenChat) {
+    messages[tokenChat] = [];
     sidebar.classList.toggle('open');
     let main = document.getElementById("main-screen")
     while (main.firstChild) main.firstChild.remove();
@@ -120,20 +124,7 @@ function handling(name) {
     footerInput.placeholder = "Type your message here..."
     footerInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
-            event.preventDefault();
-            if (event.target.value === " ") {
-                event.target.value = "";
-                return;
-            }
-            messages["main"] += event.target.value;
-            let message = document.createElement("div");
-            let messageText = document.createElement("p");
-            messageText.innerHTML = event.target.value;
-            message.className = "message";
-            message.appendChild(messageText);
-            textArea.appendChild(message);
-            window.scrollTo(0, document.body.scrollHeight);
-            event.target.value = "";
+            sendInput(event, textArea, tokenChat);
         }
     });
     footerContainer.className = "message-input-container"
@@ -142,7 +133,38 @@ function handling(name) {
     footer.appendChild(footerContainer)
     main.appendChild(footer)
     footerStat = true;
-    //TODO: work on the chat
-
+    fetch('contacts.json')
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+            chatLoader(data[tokenChat])
+        })
+        .catch(error => console.error("Error fetching JSON:", error));
 }
 
+function sendInput(event, textArea, tokenChat) {
+    event.preventDefault();
+    if (event.target.value === " ") {
+        event.target.value = "";
+        return;
+    }
+    messages[tokenChat].push(["sent", event.target.value]);
+    addMessage(textArea, event.target.value)
+    window.scrollTo(0, document.body.scrollHeight);
+    event.target.value = "";
+}
+
+function chatLoader(data) {
+    let chats = data['chats'];
+    for (const chat of chats) {
+        addMessage(document.getElementById("text-area"), chat[1])
+    }
+}
+
+function addMessage(textArea, messageText) {
+    let message = document.createElement("div");
+    let messageTextHolder = document.createElement("p");
+    messageTextHolder.innerHTML = messageText;
+    message.className = "message";
+    message.appendChild(messageTextHolder);
+    textArea.appendChild(message);
+}

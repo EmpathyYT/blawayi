@@ -181,6 +181,24 @@ footer {
 input[type="text"] {
     color: white;
 }
+ .custom-Cmenu {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+    .custom-Cmenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+    .custom-Cmenu li {
+    padding: 4px 8px;
+    cursor: pointer;
+}
+    .custom-Cmenu li:hover {
+    background-color: #eee;
+}
 
 .message-input-container {
     display: flex;

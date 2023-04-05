@@ -1,7 +1,7 @@
 const toggleSidebarBtn = document.getElementById('toggle-sidebar');
 const sidebar = document.getElementById('sidebar');
 const chatList = document.getElementById("contact-list")
-const homeButtom = document.getElementById("home-button")
+const homeButton = document.getElementById("home")
 let footerStat = false
 let messages = {}
 let token = ""
@@ -18,7 +18,7 @@ function createButton() {
     return document.createElement("button");
 }
 
-homeButtom.addEventListener('click', () => {
+homeButton.addEventListener('click', () => {
     let main = document.getElementById("main-screen");
     let title = document.createElement('h1');
     let sndTitle = document.createElement('h2');
@@ -60,7 +60,12 @@ contactButton.addEventListener('click', async () => {
 
 window.electron.loadChats((event, values) => {
     for (const [key, value] of Object.entries(values)) {
-        console.log(key)
+        messages[key] = [];
+        try {
+            messages[key].push(...chatData[key]['chats']);
+        } catch (err) {
+            console.log(err)
+        }
         let node = document.createElement("li");
         let button = createButton();
         button.id = key
@@ -83,14 +88,15 @@ window.electron.sendToken((event, value) => {
 window.electron.onChatUpdate((event, values) => {
     const node = document.createElement("li");
     let button = createButton();
-    button.id = values[1]
-    button.innerHTML = values[0]
-    button.className = "button-list"
+    messages[values[1]] = [];
+    button.id = values[1];
+    button.innerHTML = values[0];
+    button.className = "button-list";
     button.onclick = () => {
-        handling(values[0], values[1])
+        handling(values[0], values[1]);
     }
-    node.appendChild(button)
-    chatList.appendChild(node)
+    node.appendChild(button);
+    chatList.appendChild(node);
 
 })
 
@@ -108,12 +114,6 @@ window.electron.getChats((event) => {
 })
 
 function handling(name, tokenChat) {
-    messages[tokenChat] = [];
-    try {
-        messages[tokenChat].push(...chatData[tokenChat]['chats']);
-    } catch (err) {
-        console.log(err)
-    }
     sidebar.classList.toggle('open');
     let main = document.getElementById("main-screen")
     while (main.firstChild) main.firstChild.remove();
@@ -147,6 +147,20 @@ function handling(name, tokenChat) {
     footerStat = true;
     chatLoader(chatData[tokenChat])
 }
+
+document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+    let customCMenu = document.getElementById("custom-context");
+    customCMenu.style.display = "block";
+    customCMenu.style.left = event.pageX + "px";
+    customCMenu.style.top = event.pageY + "px";
+    customCMenu.addEventListener("click", function() {
+        customCMenu.style.display = "none";
+    });
+    customCMenu.addEventListener("mouseleave", function() {
+        customCMenu.style.display = "none";
+    });
+});
 
 function sendInput(event, textArea, tokenChat) {
     event.preventDefault();

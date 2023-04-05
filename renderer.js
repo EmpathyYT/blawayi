@@ -3,9 +3,16 @@ const sidebar = document.getElementById('sidebar');
 const chatList = document.getElementById("contact-list")
 const homeButtom = document.getElementById("home-button")
 let footerStat = false
-data = {}
 let messages = {}
 let token = ""
+let chatData;
+data = {}
+fetch('contacts.json')
+    .then(response => response.json())
+    .then(data => {
+        chatData = data
+    })
+    .catch(error => console.error("Error fetching JSON:", error));
 
 function createButton() {
     return document.createElement("button");
@@ -102,6 +109,11 @@ window.electron.getChats((event) => {
 
 function handling(name, tokenChat) {
     messages[tokenChat] = [];
+    try {
+        messages[tokenChat].push(...chatData[tokenChat]['chats']);
+    } catch (err) {
+        console.log(err)
+    }
     sidebar.classList.toggle('open');
     let main = document.getElementById("main-screen")
     while (main.firstChild) main.firstChild.remove();
@@ -133,12 +145,7 @@ function handling(name, tokenChat) {
     footer.appendChild(footerContainer)
     main.appendChild(footer)
     footerStat = true;
-    fetch('contacts.json')
-        .then(response => response.json()) // Parse the response as JSON
-        .then(data => {
-            chatLoader(data[tokenChat])
-        })
-        .catch(error => console.error("Error fetching JSON:", error));
+    chatLoader(chatData[tokenChat])
 }
 
 function sendInput(event, textArea, tokenChat) {

@@ -3,6 +3,7 @@ const path = require('path')
 const fs = require('fs');
 let window;
 let token;
+
 class Windows {
     win = new BrowserWindow({
         width: 1490,
@@ -67,12 +68,15 @@ class Windows {
         })
 
         ipcMain.on('chatData', (event, value) => {
-            
+            for (const [key, val] of Object.entries(value)) {
+                val['chats'].map((x) => x.filter((y) => y !== []));
+            }
             fs.writeFile('./contacts.json', JSON.stringify(value), 'utf-8', (error) => {
                 if (error) {
                     console.log('[write auth]: ' + error);
                 }
             })
+
             app.quit()
         })
 

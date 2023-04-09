@@ -23,6 +23,7 @@ class Windows {
         title: 'Contact',
         resizable: false,
         autoHideMenuBar: true,
+        icon: path.join(__dirname + "/visuals", 'Line.png'),
         webPreferences: {
             nodeIntegration: true,
             preload: path.join(__dirname, 'preload.js'),
@@ -78,8 +79,10 @@ class Windows {
                     console.log('[write auth]: ' + error);
                 }
             })
-
-            app.quit()
+            BrowserWindow.getAllWindows().forEach((win) => {
+                win.destroy();
+            });
+            app.quit();
         })
 
         ipcMain.on('contact-show', () => {

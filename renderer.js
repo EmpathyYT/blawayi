@@ -7,18 +7,18 @@ let messages = {}
 let token = ""
 let chatData;
 data = {}
-fetch('contacts.json')
+fetch('./contacts.json')
     .then(response => response.json())
     .then(data => {
         chatData = data
     })
     .catch(error => console.error("Error fetching JSON:", error));
 
-function createButton() {
+function createButton(token, name) {
     return document.createElement("button");
 }
 
-homeButton.addEventListener('click', () => mainScreenTog)
+homeButton.addEventListener('click', () => mainScreenTog())
 
 toggleSidebarBtn.addEventListener('click', () => {
     sidebar.classList.toggle('open');
@@ -51,7 +51,9 @@ window.electron.loadChats((event, values) => {
         button.innerHTML = `${value['name']}`
         button.oncontextmenu = ctxMenu;
         button.className = "button-list"
-        createObj(key, value['name'])
+        if (chatData[token]?.chats === undefined) {
+            createObj(token, name)
+        }
         button.onclick = () => {
             handling(value['name'], key)
         }
@@ -75,7 +77,9 @@ window.electron.onChatUpdate((event, values) => {
     button.innerHTML = values[0];
     button.className = "button-list";
     button.oncontextmenu = ctxMenu;
-    createObj(values[1], values[0]);
+    if (chatData[token]?.chats === undefined) {
+        createObj(token, name)
+    }
     button.onclick = () => {
         handling(values[0], values[1]);
     }
@@ -90,7 +94,7 @@ window.electron.getChats((event) => {
         let button = listItem.firstChild;
         data[button.id] = {
             name: button.textContent,
-            chats: messages[button.id]
+            chats: chatData[button.id]['chats']
         };
     }
     event.sender.send('chatData', data);

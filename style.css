@@ -208,6 +208,8 @@ input[type="text"] {
 
 .custom-Cmenu li:hover {
     background-color: transparent;
+    text-shadow: 0 0 7px #ff0000;
+    color: #ff0000;
 }
 
 .message-input-container {

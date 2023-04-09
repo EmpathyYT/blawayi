@@ -2,3 +2,4 @@ node_modules
 .fleet
 package-lock.json
 package.json
+out/

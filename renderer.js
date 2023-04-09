@@ -115,6 +115,7 @@ window.electron.getChats((event) => {
 
 })
 
+
 function handling(name, tokenChat) {
     sidebar.classList.toggle('open');
     let main = document.getElementById("main-screen")
@@ -156,12 +157,20 @@ const ctxMenu = (event) => {
     customCMenu.style.display = "block";
     customCMenu.style.left = event.pageX + "px";
     customCMenu.style.top = event.pageY + "px";
-    customCMenu.addEventListener("click", function() {
+    customCMenu.addEventListener("click", () => {
+        delChat(event.target.id);
+        console.log(event.target.id)
         customCMenu.style.display = "none";
     });
-    customCMenu.addEventListener("mouseleave", function() {
+    customCMenu.addEventListener("mouseleave", () => {
         customCMenu.style.display = "none";
     });
+}
+
+function delChat(id) {
+    let chat = document.getElementById(id);
+    delete chatData[id];
+    chat.parentElement.remove();
 }
 
 function sendInput(event, textArea, tokenChat) {
@@ -170,7 +179,7 @@ function sendInput(event, textArea, tokenChat) {
         event.target.value = "";
         return;
     }
-    messages[tokenChat].push(["sent", event.target.value]);
+    chatData[tokenChat]['chats'].push(["sent", event.target.value]);
     addMessage(textArea, event.target.value)
     window.scrollTo(0, document.body.scrollHeight);
     event.target.value = "";
@@ -181,6 +190,8 @@ function chatLoader(data) {
     for (const chat of chats) {
         addMessage(document.getElementById("text-area"), chat[1])
     }
+
+
 }
 
 function addMessage(textArea, messageText) {

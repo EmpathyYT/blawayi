@@ -8,6 +8,8 @@ class Windows {
     win = new BrowserWindow({
         width: 1490,
         height: 700,
+        title: "A Messaging Application",
+        autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: true,
             preload: path.join(__dirname, 'preload.js'),
@@ -17,14 +19,14 @@ class Windows {
 
     addContact = new BrowserWindow({
         width: 800,
-        height: 500,
+        height: 580,
         title: 'Contact',
         resizable: false,
+        autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: true,
             preload: path.join(__dirname, 'preload.js'),
             enableRemoteModule: true,
-            devTools: true
         },
         show: false
 

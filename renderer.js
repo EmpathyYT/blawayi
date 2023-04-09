@@ -18,28 +18,7 @@ function createButton() {
     return document.createElement("button");
 }
 
-homeButton.addEventListener('click', () => {
-    let main = document.getElementById("main-screen");
-    let title = document.createElement('h1');
-    let sndTitle = document.createElement('h2');
-    let paragraph = document.createElement('p');
-    let code = document.createElement('code');
-    let hr = document.createElement("hr");
-    hr.id = "main-hr"
-    title.innerHTML = "A Messaging Application";
-    sndTitle.innerHTML = "Token: ";
-    paragraph.innerHTML = "Give it to your friends so they can add you";
-    paragraph.id = "small"
-    code.innerHTML = token
-    while (main.firstChild) main.firstChild.remove();
-
-    main.appendChild(title);
-    main.appendChild(hr)
-    main.appendChild(sndTitle);
-    sndTitle.appendChild(code);
-    main.appendChild(paragraph);
-    sidebar.classList.toggle("open");
-})
+homeButton.addEventListener('click', () => mainScreenTog)
 
 toggleSidebarBtn.addEventListener('click', () => {
     sidebar.classList.toggle('open');
@@ -70,7 +49,9 @@ window.electron.loadChats((event, values) => {
         let button = createButton();
         button.id = key
         button.innerHTML = `${value['name']}`
+        button.oncontextmenu = ctxMenu;
         button.className = "button-list"
+        createObj(key, value['name'])
         button.onclick = () => {
             handling(value['name'], key)
         }
@@ -94,6 +75,7 @@ window.electron.onChatUpdate((event, values) => {
     button.innerHTML = values[0];
     button.className = "button-list";
     button.oncontextmenu = ctxMenu;
+    createObj(values[1], values[0]);
     button.onclick = () => {
         handling(values[0], values[1]);
     }
@@ -171,6 +153,7 @@ function delChat(id) {
     let chat = document.getElementById(id);
     delete chatData[id];
     chat.parentElement.remove();
+    mainScreenTog();
 }
 
 function sendInput(event, textArea, tokenChat) {
@@ -190,8 +173,6 @@ function chatLoader(data) {
     for (const chat of chats) {
         addMessage(document.getElementById("text-area"), chat[1])
     }
-
-
 }
 
 function addMessage(textArea, messageText) {
@@ -201,4 +182,34 @@ function addMessage(textArea, messageText) {
     message.className = "message";
     message.appendChild(messageTextHolder);
     textArea.appendChild(message);
+}
+
+function mainScreenTog() {
+    let main = document.getElementById("main-screen");
+    let title = document.createElement('h1');
+    let sndTitle = document.createElement('h2');
+    let paragraph = document.createElement('p');
+    let code = document.createElement('code');
+    let hr = document.createElement("hr");
+    hr.id = "main-hr"
+    title.innerHTML = "A Messaging Application";
+    sndTitle.innerHTML = "Token: ";
+    paragraph.innerHTML = "Give it to your friends so they can add you";
+    paragraph.id = "small"
+    code.innerHTML = token
+    while (main.firstChild) main.firstChild.remove();
+
+    main.appendChild(title);
+    main.appendChild(hr)
+    main.appendChild(sndTitle);
+    sndTitle.appendChild(code);
+    main.appendChild(paragraph);
+    sidebar.classList.toggle("open");
+}
+
+function createObj(tokenChat, name) {
+    chatData[tokenChat] = {
+        name: name,
+        chats: []
+    }
 }

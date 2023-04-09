@@ -1,22 +1,33 @@
+const path = require("path")
+
 module.exports = {
-  packagerConfig: {},
-  rebuildConfig: {},
-  makers: [
-    {
-      name: '@electron-forge/maker-squirrel',
-      config: {},
+    build: {
+        extraResources: [
+            {
+                from: path.resolve(__dirname, 'storedData',),
+                to: 'storage',
+            },
+        ],
     },
-    {
-      name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
+    packagerConfig: {
     },
-    {
-      name: '@electron-forge/maker-deb',
-      config: {},
-    },
-    {
-      name: '@electron-forge/maker-rpm',
-      config: {},
-    },
-  ],
+    rebuildConfig: {},
+    makers: [
+        {
+            name: '@electron-forge/maker-squirrel',
+            config: {},
+        },
+        {
+            name: '@electron-forge/maker-zip',
+            platforms: ['darwin'],
+        },
+        {
+            name: '@electron-forge/maker-deb',
+            config: {},
+        },
+        {
+            name: '@electron-forge/maker-rpm',
+            config: {},
+        },
+    ],
 };

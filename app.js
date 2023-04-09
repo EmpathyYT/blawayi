@@ -23,7 +23,6 @@ class Windows {
         title: 'Contact',
         resizable: false,
         autoHideMenuBar: true,
-        icon: path.join(__dirname + "/visuals", 'Line.png'),
         webPreferences: {
             nodeIntegration: true,
             preload: path.join(__dirname, 'preload.js'),
@@ -34,17 +33,17 @@ class Windows {
     })
 
     loadChat() {
-        const data = require('./contacts.json');
-        if (Object.keys(require('./tokenInfo.json')).length === 0) {
-            token = this.tokenGenerator()
-            fs.writeFile('./tokenInfo.json', JSON.stringify(token), 'utf-8', (error) => {
+        const data = require(path.join(__dirname, 'storedData', 'contacts.json'));
+        if (Object.keys(path.join(__dirname, 'storedData','tokenInfo.json')).length === 0) {
+            token = this.tokenGenerator();
+            fs.writeFile(path.join(__dirname, 'storedData','tokenInfo.json'), JSON.stringify(token), 'utf-8', (error) => {
                 if (error) {
                     console.log('[write auth]: ' + error);
                 }
             })
 
         } else {
-            token = require('./tokenInfo.json')
+            token = require(path.join(__dirname, 'storedData','tokenInfo.json'));
         }
         this.win.webContents.send('load-token', token);
         this.win.webContents.send('load-chats', data);
@@ -53,8 +52,8 @@ class Windows {
     }
 
     createWindow() {
-        this.win.loadFile('index.html')
-        this.addContact.loadFile("visuals/contact.html")
+        this.win.loadFile('index.html');
+        this.addContact.loadFile("visuals/contact.html");
 
         this.win.once('ready-to-show', (event) => {
             this.loadChat();
@@ -69,12 +68,11 @@ class Windows {
             event.preventDefault();
             this.addContact.hide();
         })
-
         ipcMain.on('chatData', (event, value) => {
             for (const [key, val] of Object.entries(value)) {
                 val['chats'].map((x) => x.filter((y) => y !== []));
             }
-            fs.writeFile('./contacts.json', JSON.stringify(value), 'utf-8', (error) => {
+            fs.writeFile(path.join(__dirname, 'storedData','contacts.json'), JSON.stringify(value), 'utf-8', (error) => {
                 if (error) {
                     console.log('[write auth]: ' + error);
                 }

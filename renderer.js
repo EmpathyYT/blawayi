@@ -7,14 +7,14 @@ let messages = {}
 let token = ""
 let chatData;
 data = {}
-fetch('./contacts.json')
+fetch('./storedData/contacts.json')
     .then(response => response.json())
     .then(data => {
         chatData = data
     })
     .catch(error => console.error("Error fetching JSON:", error));
 
-function createButton(token, name) {
+function createButton() {
     return document.createElement("button");
 }
 

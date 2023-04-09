@@ -106,7 +106,7 @@ function handling(name, tokenChat) {
     let hr = document.createElement('hr')
     let textArea = document.createElement('div')
     let chatContainer = document.createElement("div")
-    chatContainer.id = "chat-container"
+    chatContainer.id = "chat-cont"
     textArea.id = "text-area"
     hr.id = "chat-hr"
     title.innerHTML = `This is the beginning of your chat with ${name}`;
@@ -124,7 +124,7 @@ function handling(name, tokenChat) {
             sendInput(event, textArea, tokenChat);
         }
     });
-    footerContainer.className = "message-input-container"
+    footerContainer.className = "MIC"
     footer.id = "chat-footer"
     footerContainer.appendChild(footerInput)
     footer.appendChild(footerContainer)

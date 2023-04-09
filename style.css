@@ -3,14 +3,6 @@ html, body {
     background-color: #343541;
 }
 
-#home-button {
-    padding-inline: 22px;
-    margin-top: 40px;
-    margin-left: -10px;
-    right: 20px;
-    align-self: flex-start;
-}
-
 h1 {
     font-family: 'Quicksand', sans-serif;
     font-weight: lighter;
@@ -30,9 +22,9 @@ h1 {
 }
 
 #text-area {
-    max-height: calc(100% - 60px); /* or the height of your header and footer */
+    max-height: calc(100% - 60px);
     margin-top: 20px;
-    margin-bottom: 100px; /* or the height of your footer */
+    margin-bottom: 100px;
 }
 
 h2 {
@@ -84,7 +76,7 @@ footer.hidden {
     opacity: 1;
 }
 
-#chat-container {
+#chat-cont {
     position: relative;
     min-height: 100%;
 }
@@ -93,7 +85,7 @@ footer.hidden {
     margin-left: 200px;
     padding: 20px;
     overflow-y: auto;
-    padding-bottom: 60px; /* or the height of your footer */
+    padding-bottom: 60px;
 }
 
 #main-screen {
@@ -173,7 +165,7 @@ footer {
 }
 
 .on-coming-message {
-
+ /* For incoming messages but most likely will be added later */
 }
 
 input[type="text"] {
@@ -212,7 +204,7 @@ input[type="text"] {
     color: #ff0000;
 }
 
-.message-input-container {
+.MIC {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -220,8 +212,8 @@ input[type="text"] {
     margin: 0 auto;
 }
 
-.message-input-container input {
-    width: calc(100% - 20px); /* Subtract padding from 100% to make room for borders */
+.MIC input {
+    width: calc(100% - 20px);
     padding: 10px;
 }
 

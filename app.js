@@ -34,17 +34,15 @@ class Windows {
 
     loadChat() {
         const data = require(path.join(__dirname, 'storedData', 'contacts.json'));
-        if (Object.keys(path.join(__dirname, 'storedData','tokenInfo.json')).length === 0) {
-            token = this.tokenGenerator();
-            fs.writeFile(path.join(__dirname, 'storedData','tokenInfo.json'), JSON.stringify(token), 'utf-8', (error) => {
-                if (error) {
-                    console.log('[write auth]: ' + error);
-                }
-            })
-
-        } else {
             token = require(path.join(__dirname, 'storedData','tokenInfo.json'));
-        }
+            if (token[1] === undefined) {
+                token = this.tokenGenerator();
+                fs.writeFile(path.join(__dirname, 'storedData','tokenInfo.json'), JSON.stringify(token), 'utf-8', (error) => {
+                    if (error) {
+                        console.log('[write auth]: ' + error);
+                    }
+                })
+            }
         this.win.webContents.send('load-token', token);
         this.win.webContents.send('load-chats', data);
 

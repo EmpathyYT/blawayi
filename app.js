@@ -35,7 +35,8 @@ class Windows {
     loadChat() {
         const data = require(path.join(__dirname, 'storedData', 'contacts.json'));
             token = require(path.join(__dirname, 'storedData','tokenInfo.json'));
-            if (token[1] === undefined) {
+            console.log(token)
+            if (token['token'] === undefined) {
                 token = this.tokenGenerator();
                 fs.writeFile(path.join(__dirname, 'storedData','tokenInfo.json'), JSON.stringify(token), 'utf-8', (error) => {
                     if (error) {

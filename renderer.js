@@ -3,7 +3,6 @@ const sidebar = document.getElementById('sidebar');
 const chatList = document.getElementById("contact-list")
 const homeButton = document.getElementById("home")
 let footerStat = false
-let messages = {}
 let token = ""
 let chatData;
 data = {}
@@ -39,12 +38,6 @@ contactButton.addEventListener('click', async () => {
 
 window.electron.loadChats((event, values) => {
     for (const [key, value] of Object.entries(values)) {
-        messages[key] = [];
-        try {
-            messages[key].push(...chatData[key]['chats']);
-        } catch (err) {
-            console.log(err)
-        }
         let node = document.createElement("li");
         let button = createButton();
         button.id = key
@@ -72,13 +65,12 @@ window.electron.sendToken((event, value) => {
 window.electron.onChatUpdate((event, values) => {
     const node = document.createElement("li");
     let button = createButton();
-    messages[values[1]] = [];
     button.id = values[1];
     button.innerHTML = values[0];
     button.className = "button-list";
     button.oncontextmenu = ctxMenu;
-    if (chatData[token]?.chats === undefined) {
-        createObj(token, name)
+    if (chatData[values[1]]?.chats === undefined) {
+        createObj(values[1], values[0])
     }
     button.onclick = () => {
         handling(values[0], values[1]);

@@ -243,3 +243,87 @@ input, textarea {
     height: 0;
     background-color: transparent;
 }
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    padding: 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+label {
+    font-family: 'Quicksand', sans-serif;
+    color: #FFFFFF;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, textarea {
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+input:focus {
+    outline: none !important;
+    border-color: #444654;
+    box-shadow: 0 0 10px #719ECE;
+}
+
+textarea:focus {
+    outline: none !important;
+    border-color: #444654;
+    box-shadow: 0 0 10px #719ECE;
+}
+
+textarea {
+    height: 150px;
+}
+
+button[type="submit"] {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 400;
+    background-color: #444654;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background-color: #444;
+}
+
+.container {
+    width: 400px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.form-title {
+    margin-top: 20px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: lighter;
+    font-size: 40px;
+    color: #FFFFFF;
+    text-align: center;
+}

@@ -37,6 +37,8 @@ contactButton.addEventListener('click', async () => {
 });
 
 window.electron.loadChats((event, values) => {
+    loginScreen()
+    /*
     for (const [key, value] of Object.entries(values)) {
         let node = document.createElement("li");
         let button = createButton();
@@ -54,6 +56,7 @@ window.electron.loadChats((event, values) => {
         node.appendChild(button)
         chatList.appendChild(node)
     }
+*/
 
 })
 
@@ -93,6 +96,41 @@ window.electron.getChats((event) => {
 
 })
 
+function loginScreen() {
+    let mainscreen = document.getElementById("main-screen");
+    let maincontent = document.getElementById("main-content");
+    let form = document.createElement("form");
+    let tokenLogin = document.createElement("input");
+    let passLogin = document.createElement("input");
+    let subutton = document.createElement("button");
+    let container = document.createElement("div");
+    let formTitle = document.createElement("h2");
+    formTitle.classList.add("form-title")
+    mainscreen.style.display = "none";
+    maincontent.style.display = "none";
+    subutton.type = "submit";
+    subutton.innerHTML = "Login"
+    tokenLogin.type = "text";
+    tokenLogin.name = "Token";
+    tokenLogin.placeholder = "Enter your token";
+    passLogin.type = "text";
+    passLogin.name = "Password";
+    passLogin.placeholder = "Enter your password"
+    formTitle.innerHTML = "Welcome Back!"
+    form.classList.add("login-form");
+    container.classList.add("container", "center");
+    form.appendChild(tokenLogin);
+    form.appendChild(passLogin);
+    form.appendChild(subutton);
+    container.appendChild(formTitle)
+    container.appendChild(form)
+    document.body.appendChild(container);
+
+
+
+    //mainscreen.style.display = "block";
+    //maincontent.style.display = "block";
+}
 
 function handling(name, tokenChat) {
     sidebar.classList.toggle('open');

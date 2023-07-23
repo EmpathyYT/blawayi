@@ -33,21 +33,7 @@ class Windows {
     })
 
     loadChat() {
-        const data = require(path.join(__dirname, 'storedData', 'contacts.json'));
-            token = require(path.join(__dirname, 'storedData','tokenInfo.json'));
-            console.log(token)
-            if (token['token'] === undefined) {
-                token = this.tokenGenerator();
-                fs.writeFile(path.join(__dirname, 'storedData','tokenInfo.json'), JSON.stringify(token), 'utf-8', (error) => {
-                    if (error) {
-                        console.log('[write auth]: ' + error);
-                    }
-                })
-            }
-        this.win.webContents.send('load-token', token);
-        this.win.webContents.send('load-chats', data);
-
-
+        this.win.webContents.send('load-chats');
     }
 
     createWindow() {
@@ -96,9 +82,9 @@ class Windows {
 
     tokenGenerator() {
         let result = "";
-        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const characters = "0123456789";
         const charactersLength = characters.length;
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 40; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
         return {

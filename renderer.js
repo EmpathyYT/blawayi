@@ -2,7 +2,10 @@ const toggleSidebarBtn = document.getElementById('toggle-sidebar');
 const sidebar = document.getElementById('sidebar');
 const chatList = document.getElementById("contact-list")
 const homeButton = document.getElementById("home")
+let loginForm = document.getElementById("loginForm");
 let footerStat = false
+let spinnerCont = document.createElement("div");
+spinnerCont.id = "spinner-container";
 let token = ""
 let chatData;
 data = {}
@@ -99,7 +102,6 @@ window.electron.getChats((event) => {
 function loginScreen() {
     let mainscreen = document.getElementById("main-screen");
     let maincontent = document.getElementById("main-content");
-    let form = document.createElement("form");
     let tokenLogin = document.createElement("input");
     let passLogin = document.createElement("input");
     let subutton = document.createElement("button");
@@ -117,20 +119,62 @@ function loginScreen() {
     passLogin.name = "Password";
     passLogin.placeholder = "Enter your password"
     formTitle.innerHTML = "Welcome Back!"
-    form.classList.add("login-form");
+    loginForm.classList.add("login-form");
+    loginForm.id = "loginForm"
     container.classList.add("container", "center");
-    form.appendChild(tokenLogin);
-    form.appendChild(passLogin);
-    form.appendChild(subutton);
+    container.id = "logincontain"
+    loginForm.appendChild(tokenLogin);
+    loginForm.appendChild(passLogin);
+    loginForm.appendChild(subutton);
     container.appendChild(formTitle)
-    container.appendChild(form)
+    container.appendChild(loginForm)
     document.body.appendChild(container);
-
-
-
-    //mainscreen.style.display = "block";
-    //maincontent.style.display = "block";
 }
+
+loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    let container = document.getElementById("logincontain")
+    document.body.removeChild(container);
+    spinnerCont.classList.add("spinner-container", "center")
+
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", "100");
+    svg.setAttribute("height", "100");
+    svg.setAttribute("viewBox", "0 0 100 100");
+
+    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect.setAttribute("x", "25");
+    rect.setAttribute("y", "25");
+    rect.setAttribute("width", "50");
+    rect.setAttribute("height", "50");
+    rect.setAttribute("rx", "10");
+    rect.setAttribute("ry", "10");
+    rect.setAttribute("fill", "none");
+    rect.setAttribute("stroke", "#40414f");
+    rect.setAttribute("stroke-width", "5");
+
+    const animate = document.createElementNS("http://www.w3.org/2000/svg", "animateTransform");
+    animate.setAttribute("attributeName", "transform");
+    animate.setAttribute("type", "rotate");
+    animate.setAttribute("from", "0 50 50");
+    animate.setAttribute("to", "360 50 50");
+    animate.setAttribute("dur", "1s");
+    animate.setAttribute("repeatCount", "indefinite");
+    svg.classList.add("spinner-circle")
+    rect.appendChild(animate);
+    svg.appendChild(rect);
+    spinnerCont.appendChild(svg);
+    document.body.appendChild(spinnerCont);
+    const formData = new FormData(loginForm);
+    const token = formData.get('Token');
+    const password = formData.get('Password');
+    const couple = {
+        token: token,
+        password: password
+    }
+    await window.electron.send('authenticate', couple);
+})
+
 
 function handling(name, tokenChat) {
     sidebar.classList.toggle('open');
@@ -246,4 +290,8 @@ function createObj(tokenChat, name) {
         name: name,
         chats: []
     }
+}
+
+function authentication(token, password) {
+
 }

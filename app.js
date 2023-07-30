@@ -76,9 +76,34 @@ class Windows {
             this.win.webContents.send('new-chat', formData)
             this.addContact.hide();
         })
-
+        ipcMain.on("authenticate", async (event, couple) => {
+            const resp = await fetch("http://127.0.0.1:5000/auth", this.requestGenerator('POST', 'application/json', {
+                token: couple.token,
+                password: couple.password
+            }));
+            const response = await resp.json();
+        })
 
     }
+
+
+
+    requestGenerator(method, contentType, body) {
+            return {
+                method: method,
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': contentType
+
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify(body)
+            };
+    }
+
 
     tokenGenerator() {
         let result = "";

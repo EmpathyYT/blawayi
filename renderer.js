@@ -68,6 +68,8 @@ window.electron.sendToken((event, value) => {
     document.getElementById("token").innerHTML = token;
 })
 
+
+
 window.electron.onChatUpdate((event, values) => {
     const node = document.createElement("li");
     let button = createButton();
@@ -84,6 +86,10 @@ window.electron.onChatUpdate((event, values) => {
     node.appendChild(button);
     chatList.appendChild(node);
 
+})
+
+window.electron.authResp((event, response) => {
+        
 })
 
 window.electron.getChats((event) => {
@@ -292,6 +298,7 @@ function createObj(tokenChat, name) {
     }
 }
 
-function authentication(token, password) {
-
+function validateNumber(input) {
+    // Remove any non-numeric characters using a regular expression
+    input.value = input.value.replace(/[^0-9]/g, '');
 }

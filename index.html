@@ -12,7 +12,7 @@
 <div class="container center" id="logincontain">
     <h2 class="form-title" id="login-form">Welcome Back!</h2>
     <form class="login-form" id="loginForm">
-      <input type="text" name="Token" placeholder="Enter your token">
+      <input type="text" name="Token" placeholder="Enter your token" oninput="validateNumber(this)">
       <input type="text" name="Password" placeholder="Enter your password">
       <button type="submit">Login</button>
     </form>

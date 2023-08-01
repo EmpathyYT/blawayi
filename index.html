@@ -9,14 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="container center" id="logincontain">
-    <h2 class="form-title" id="login-form">Welcome Back!</h2>
-    <form class="login-form" id="loginForm">
-      <input type="text" name="Token" placeholder="Enter your token" oninput="validateNumber(this)">
-      <input type="text" name="Password" placeholder="Enter your password">
-      <button type="submit">Login</button>
-    </form>
-  </div>
 <div id="sidebar">
     <h1 id="home">Contacts</h1>
     <button id="contact-button" style="width: 100%;">Add Contact</button>
@@ -32,6 +24,8 @@
         <li id="delchat">Delete Chat</li>
     </ul>
   </div>
+<div id="main-screen" class="main-screen" style="display: none;">
+</div>
 <script src="./renderer.js" defer></script>
 </body>
 </html>

@@ -88,7 +88,8 @@ class Windows {
 				});
 				app.quit();
 			} else {
-				this.win.webContents.send("authresp", response)
+				this.win.webContents.send("authresp", response['token'])
+
 			}
 
 		})

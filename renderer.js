@@ -89,6 +89,10 @@ window.electron.onChatUpdate((event, values) => {
 })
 
 window.electron.authResp((event, response) => {
+        token = response['token'];
+        document.body.removeChild(spinnerCont);
+        mainScreenTog();
+
         
 })
 
@@ -113,19 +117,22 @@ function loginScreen() {
     let subutton = document.createElement("button");
     let container = document.createElement("div");
     let formTitle = document.createElement("h2");
+    loginForm = document.createElement('form')
     formTitle.classList.add("form-title")
-    mainscreen.style.display = "none";
+    while (mainscreen.firstChild) mainscreen.firstChild.remove();
     maincontent.style.display = "none";
     subutton.type = "submit";
     subutton.innerHTML = "Login"
     tokenLogin.type = "text";
     tokenLogin.name = "Token";
     tokenLogin.placeholder = "Enter your token";
+    tokenLogin.oninput = "validateNumber(this)"
     passLogin.type = "text";
     passLogin.name = "Password";
     passLogin.placeholder = "Enter your password"
     formTitle.innerHTML = "Welcome Back!"
     loginForm.classList.add("login-form");
+    loginForm.onsubmit = loginEvent()
     loginForm.id = "loginForm"
     container.classList.add("container", "center");
     container.id = "logincontain"
@@ -137,7 +144,7 @@ function loginScreen() {
     document.body.appendChild(container);
 }
 
-loginForm.addEventListener('submit', async (event) => {
+async function loginEvent(event)  {
     event.preventDefault();
     let container = document.getElementById("logincontain")
     document.body.removeChild(container);
@@ -179,12 +186,12 @@ loginForm.addEventListener('submit', async (event) => {
         password: password
     }
     await window.electron.send('authenticate', couple);
-})
+}
 
 
 function handling(name, tokenChat) {
     sidebar.classList.toggle('open');
-    let main = document.getElementById("main-screen")
+    let main = document.getElementById("main-screen");
     while (main.firstChild) main.firstChild.remove();
     let title = document.createElement("h1");
     let hr = document.createElement('hr')
@@ -270,6 +277,8 @@ function addMessage(textArea, messageText) {
 
 function mainScreenTog() {
     let main = document.getElementById("main-screen");
+    main.style.display = 'block';
+    while (main.firstChild) main.firstChild.remove();
     let title = document.createElement('h1');
     let sndTitle = document.createElement('h2');
     let paragraph = document.createElement('p');
@@ -281,7 +290,6 @@ function mainScreenTog() {
     paragraph.innerHTML = "Give it to your friends so they can add you";
     paragraph.id = "small"
     code.innerHTML = token
-    while (main.firstChild) main.firstChild.remove();
 
     main.appendChild(title);
     main.appendChild(hr)
